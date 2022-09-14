@@ -8,7 +8,7 @@ const orderController = new OrderController();
 app.use(express.json());
 
 app.get('/products', productsController.getAll);
-
+app.post('/products', productsController.create);
 app.get('/orders', orderController.getAll);
 
 export default app;
