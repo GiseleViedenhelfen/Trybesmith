@@ -9,7 +9,13 @@ export default class ProductModel {
   }
 
   public async getAll() {
-    const result = await this.connection.execute('SELECT * FROM Trybesmith.Orders');
+    const query = ` SELECT O.id, O.userId, JSON_ARRAYAGG(PI.id) as productsIds 
+    FROM Trybesmith.Orders as O
+    INNER JOIN Trybesmith.Products as PI
+    ON O.id = PI.orderId
+    GROUP BY O.id
+    ORDER BY O.userId;`;
+    const result = await this.connection.execute(query);
     const [rows] = result;
     return rows as Order[];
   }
